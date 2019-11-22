@@ -113,11 +113,11 @@ t_btn = Button(text="OFF", font = 'Times 10 bold', foreground = 'red', width=6, 
 t_btn.grid(row=1, column=2)
 
 # Wave Type
-sinimage = PhotoImage(file = 'DSPProject/sine.png')
+sinimage = PhotoImage(file = './sine.png')
 Radiobutton(root, value=1, image = sinimage, background = 'gray90').grid(row=3, column=1)
-triimage = PhotoImage(file = 'DSPProject/triangle.png')
+triimage = PhotoImage(file = './triangle.png')
 Radiobutton(root, value=2, image = triimage, background = 'gray90').grid(row=3, column=2)
-squareimage = PhotoImage(file = 'DSPProject/square.png')
+squareimage = PhotoImage(file = './square.png')
 Radiobutton(root, value=3, image = squareimage, background = 'gray90').grid(row=3, column=3)
 
 
