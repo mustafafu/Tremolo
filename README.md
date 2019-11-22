@@ -1,5 +1,8 @@
 # Tremolo
 Tremolo Effect on Synthetic Piano
+
+Hashem Khalifeh, Mustafa F. Ozkoc
+
 # Introduction
 Tremolo effect is used in different kinds of music ranging from surf to punk. It achieves a trembling effect on the played notes. It mimics the playing of fast repeated notes generally used in violin, guitar, rolls on a percussion instrument or in our case on a piano sound.The tremolo effect simulates this repeated notes playing style by periodically modulating the amplitude of an input signal. Long sustained notes come out as short rapid repetitive notes. The tremolo was built into some guitar amplifiers as early as 1940s [1].
 
