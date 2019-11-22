@@ -1,6 +1,6 @@
 # DSP Lab - Project
 # Tremolo Effect on Synthetic Piano
-# Hashem Khalifeh & Mustafa F. Ozkoc
+# Hashem Khalifeh & Mustafa F. Ozkoc Nov 2019
 
 import pyaudio, struct
 import numpy as np
