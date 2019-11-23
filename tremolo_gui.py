@@ -89,8 +89,8 @@ root = Tk()
 
 # Define Tkinter variables
 f1 = DoubleVar()
-f1_min = 5
-f1_max = 10
+f1_min = 0.5
+f1_max = 20
 gain = DoubleVar()
 waveform = IntVar()
 
@@ -131,11 +131,9 @@ print('Press "q" to quit')
 
 # Parameters for Tremolo
 theta = 0.0
-om1 = 2.0 * pi * f1.get() / RATE
 
 while CONTINUE:
     root.update()
-    om1 = 2.0 * pi * f1.get() / RATE
 
     for jj in np.arange(om.shape[0]):
         [y[:,jj], states[:,jj]] = signal.lfilter(b[:,jj], a[:,jj], x[:,jj], zi = states[:,jj])
@@ -146,8 +144,8 @@ while CONTINUE:
       waves = np.array([sin(theta), signal.square(theta), triangle_wave(theta)])
       m[i] = 1 + status*gain.get()*waves[waveform.get()]
       output[i] = int(z[i] * m[i])
-      theta = theta + om1
-    while theta > pi:
+      theta = theta + 2.0 * pi * f1.get() / RATE
+    while theta > 2*pi:
       theta = theta - 2.0 * pi
     output = np.clip(output, -MAXVALUE, MAXVALUE)     # Clipping
     binary_data = struct.pack('h' * BLOCKLEN, *output);    # Convert to binary binary data
