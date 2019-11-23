@@ -7,6 +7,7 @@ import numpy as np
 from scipy import signal
 from math import sin, cos, pi
 from tkinter import *
+from my_functions import triangle_wave
 
 
 BLOCKLEN   = 64        # Number of frames per block
@@ -88,8 +89,10 @@ root = Tk()
 
 # Define Tkinter variables
 f1 = DoubleVar()
+f1_min = 5
+f1_max = 10
 gain = DoubleVar()
-waveform = StringVar()
+waveform = IntVar()
 
 # Initialize Tk Variables
 f1.set(5)
@@ -101,7 +104,7 @@ root.configure(background = 'gray90')
 Label(root, text='Tremolo Effect on Synthetic Piano', font = 'Times 16 bold', background = 'gray90').grid(row=0, column=2)
 
 # Frequency Scale
-Scale(root, label = 'Frequency', variable = f1, from_ = 5, to = 10, resolution = 1, font = 'fixedsys 10',
+Scale(root, label = 'Frequency', variable = f1, from_ = f1_min, to = f1_max, resolution = 0.5, font = 'fixedsys 10',
       background = 'gray90', foreground = 'black').grid(row=1, column=0)
 
 # Gain Scale
@@ -114,11 +117,11 @@ t_btn.grid(row=1, column=2)
 
 # Wave Type
 sinimage = PhotoImage(file = './sine.png')
-Radiobutton(root, value=1, image = sinimage, background = 'gray90').grid(row=3, column=1)
-triimage = PhotoImage(file = './triangle.png')
-Radiobutton(root, value=2, image = triimage, background = 'gray90').grid(row=3, column=2)
+Radiobutton(root, value=0, image = sinimage, background = 'gray90',var=waveform).grid(row=3, column=1)
 squareimage = PhotoImage(file = './square.png')
-Radiobutton(root, value=3, image = squareimage, background = 'gray90').grid(row=3, column=3)
+Radiobutton(root, value=1, image = squareimage, background = 'gray90',var=waveform).grid(row=3, column=2)
+triimage = PhotoImage(file = './triangle.png')
+Radiobutton(root, value=2, image = triimage, background = 'gray90',var=waveform).grid(row=3, column=3)
 
 
 root.bind("<Key>", my_function)
@@ -126,11 +129,13 @@ root.bind("<Key>", my_function)
 print('Press keys for sound.')
 print('Press "q" to quit')
 
-theta = 0
+# Parameters for Tremolo
+theta = 0.0
 om1 = 2.0 * pi * f1.get() / RATE
 
 while CONTINUE:
     root.update()
+    om1 = 2.0 * pi * f1.get() / RATE
 
     for jj in np.arange(om.shape[0]):
         [y[:,jj], states[:,jj]] = signal.lfilter(b[:,jj], a[:,jj], x[:,jj], zi = states[:,jj])
@@ -138,7 +143,8 @@ while CONTINUE:
     x[0,:] = 0.0
     z = y.sum(1)
     for i in range(0, BLOCKLEN):
-      m[i] = 1 + status*gain.get()*sin(theta)
+      waves = np.array([sin(theta), signal.square(theta), triangle_wave(theta)])
+      m[i] = 1 + status*gain.get()*waves[waveform.get()]
       output[i] = int(z[i] * m[i])
       theta = theta + om1
     while theta > pi:
