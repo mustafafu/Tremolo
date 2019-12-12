@@ -8,6 +8,7 @@ from scipy import signal
 from math import sin, cos, pi
 from tkinter import *
 from my_functions import triangle_wave
+from my_functions import trapezoid
 
 
 BLOCKLEN   = 64        # Number of frames per block
@@ -141,7 +142,7 @@ while CONTINUE:
     x[0,:] = 0.0
     z = y.sum(1)
     for i in range(0, BLOCKLEN):
-      waves = np.array([sin(theta), signal.square(theta), triangle_wave(theta)])
+      waves = np.array([sin(theta), trapezoid(theta), triangle_wave(theta)])
       m[i] = 1 + status*gain.get()*waves[waveform.get()]
       output[i] = int(z[i] * m[i])
       theta = theta + 2.0 * pi * f1.get() / RATE
